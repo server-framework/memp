@@ -54,4 +54,8 @@ public abstract class ApiBaseController {
     public <T> Result<T> failServerError(String message) {
         return response(HttpCode.SC_INTERNAL_SERVER_ERROR, HttpCode.SC_INTERNAL_SERVER_ERROR, message, null);
     }
+
+    public String getCurrentUserId() {
+        return JwtUtils.getCurrentUserId(getRequest());
+    }
 }

@@ -1,8 +1,7 @@
 package com.thinkgem.jeesite.common.web;
 
-public class UserCacheDto {
+public class TokenDTO {
     private String token;
-    private String userId;
 
     public String getToken() {
         return token;
@@ -12,11 +11,4 @@ public class UserCacheDto {
         this.token = token;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 }
