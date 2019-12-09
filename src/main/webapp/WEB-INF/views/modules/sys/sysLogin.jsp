@@ -15,6 +15,7 @@
       .form-signin div.validateCode {padding-bottom:15px;} .mid{vertical-align:middle;}
       .header{height:80px;padding-top:20px;} .alert{position:relative;width:300px;margin:0 auto;*padding-bottom:0px;}
       label.error{background:none;width:270px;font-weight:normal;color:inherit;margin:0;}
+	  body{background:url(${ctxStatic}/images/bg1.jpg) no-repeat center center;}
     </style>
 	<script type="text/javascript">
 		$(document).ready(function() {

@@ -11,7 +11,7 @@
  Target Server Version : 50621
  File Encoding         : 65001
 
- Date: 08/12/2019 22:49:17
+ Date: 09/12/2019 18:36:20
 */
 
 SET NAMES utf8mb4;
@@ -201,6 +201,68 @@ CREATE TABLE `gen_template`  (
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '代码模板表' ROW_FORMAT = Compact;
 
 -- ----------------------------
+-- Table structure for memp_address
+-- ----------------------------
+DROP TABLE IF EXISTS `memp_address`;
+CREATE TABLE `memp_address`  (
+  `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `user_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '用户ID',
+  `province` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '省code',
+  `city` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '市code',
+  `area` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '区code',
+  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '地址',
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '收货人姓名',
+  `mobile` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '收货人手机号码',
+  `default_flag` bit(1) NULL DEFAULT b'0' COMMENT '是否默认(0-否|1-是)',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建者',
+  `create_date` datetime(0) NOT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '更新者',
+  `update_date` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '删除标记',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户收货地址表' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for memp_bank
+-- ----------------------------
+DROP TABLE IF EXISTS `memp_bank`;
+CREATE TABLE `memp_bank`  (
+  `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `user_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户ID',
+  `bank_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '银行名称',
+  `sub_bank_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '支行名称',
+  `bank_card_no` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '银行卡号',
+  `account` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '户名',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建者',
+  `create_date` datetime(0) NOT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '更新者',
+  `update_date` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '删除标记',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户银行卡表' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for memp_cash
+-- ----------------------------
+DROP TABLE IF EXISTS `memp_cash`;
+CREATE TABLE `memp_cash`  (
+  `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `user_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `bank_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '银行名称',
+  `sub_bank_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '支行名称',
+  `bank_card_no` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '银行卡号',
+  `account` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '户名',
+  `statis` int(2) NOT NULL COMMENT '状态(1-待审核|2-审核失败|3-审核通过)',
+  `reason` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '失败原因',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建者',
+  `create_date` datetime(0) NOT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '更新者',
+  `update_date` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '删除标记',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户提现表' ROW_FORMAT = Compact;
+
+-- ----------------------------
 -- Table structure for memp_coin_detail
 -- ----------------------------
 DROP TABLE IF EXISTS `memp_coin_detail`;
@@ -242,10 +304,10 @@ CREATE TABLE `memp_setting`  (
 INSERT INTO `memp_setting` VALUES ('03f73ad9b79341108a86938abb4c216b', 0.60, 0.20, 1.80, 10000, '{\"r1\":0.1,\"r2\":0.2,\"r3\":0.3,\"r4\":0.4,\"r5\":0.5,\"r6\":0.6,\"r7\":0.7,\"r8\":0.8,\"r9\":0.9,\"r10\":0.01,\"r11\":0.02,\"r12\":0.03}', '1', '2019-12-08 20:05:10', '1', '2019-12-08 21:57:37', '备注信息1', '0');
 
 -- ----------------------------
--- Table structure for memp_stages_info
+-- Table structure for memp_stages_applyinfo
 -- ----------------------------
-DROP TABLE IF EXISTS `memp_stages_info`;
-CREATE TABLE `memp_stages_info`  (
+DROP TABLE IF EXISTS `memp_stages_applyinfo`;
+CREATE TABLE `memp_stages_applyinfo`  (
   `id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `user_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '用户ID',
   `idcard_name` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '姓名',
@@ -255,10 +317,12 @@ CREATE TABLE `memp_stages_info`  (
   `bank_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '银行名称',
   `bank_card_no` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '银行卡号',
   `mobile` varchar(11) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '预留手机号码',
-  `money` bigint(10) NOT NULL COMMENT '分期金额',
+  `money` bigint(10) NOT NULL COMMENT '贷款金额',
+  `less_money` bigint(10) NOT NULL COMMENT '剩余应还金额',
+  `version_no` int(10) NOT NULL COMMENT '应还金额数据版本',
   `stages_num` int(2) NOT NULL COMMENT '分期期数',
   `credit_score` double(10, 2) NULL DEFAULT NULL COMMENT '信用分（百融）',
-  `stages_status` int(2) NOT NULL COMMENT '状态 1-额度申请中|2百融返回|3拒绝|4通过',
+  `stages_status` int(2) NOT NULL COMMENT '状态 1-额度申请中|2百融返回信用分|3审核拒绝|4审核通过放款',
   `reason` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '拒绝原因',
   `credidt_date` datetime(0) NULL DEFAULT NULL COMMENT '百融返回时间',
   `audit_date` datetime(0) NULL DEFAULT NULL COMMENT '审核时间',
@@ -268,7 +332,51 @@ CREATE TABLE `memp_stages_info`  (
   `update_date` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '删除标记',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分期信息表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '分期申请表' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for memp_stages_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `memp_stages_detail`;
+CREATE TABLE `memp_stages_detail`  (
+  `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `user_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户ID',
+  `stages_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '分期记录ID',
+  `shallbe_fixd_money` double(10, 2) NOT NULL COMMENT '本期应还本金',
+  `shallbe_interest_money` double(10, 2) NOT NULL COMMENT '本期息费',
+  `deduct_money` double(10, 2) NULL DEFAULT NULL COMMENT '息费抵扣金',
+  `less_money` double(10, 2) NOT NULL COMMENT '应还后剩余',
+  `interest_rate` double(10, 2) NOT NULL COMMENT '利率',
+  `status` int(2) NOT NULL COMMENT '状态 1-待还|2-已还|3-已逾期|4-预期已还',
+  `fixd_ret_date` datetime(0) NOT NULL COMMENT '还款日 yyyy-MM-dd HH:mm:ss',
+  `out_trade_no` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '商户订单号',
+  `trade_no` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '微信订单号',
+  `ret_date` datetime(0) NULL DEFAULT NULL COMMENT '实际还款日',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建者',
+  `create_date` datetime(0) NOT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '更新者',
+  `update_date` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '删除标记',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '分期明细表' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for memp_third_bank
+-- ----------------------------
+DROP TABLE IF EXISTS `memp_third_bank`;
+CREATE TABLE `memp_third_bank`  (
+  `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `bank` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '贷款银行',
+  `link` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '跳转链接',
+  `create_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '创建者',
+  `create_date` datetime(0) NOT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '更新者',
+  `update_date` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
+  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '备注信息',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '0' COMMENT '删除标记',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for memp_user
@@ -282,11 +390,24 @@ CREATE TABLE `memp_user`  (
   `mobile` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机号',
   `coin` bigint(20) NULL DEFAULT NULL COMMENT '乐币数',
   `version_no` int(10) NULL DEFAULT 1 COMMENT '乐币数乐观锁',
+  `higher_user_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '上级用户ID',
   `create_date` datetime(0) NOT NULL COMMENT '创建时间',
   `update_date` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '删除标记',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户表' ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for memp_user_relation
+-- ----------------------------
+DROP TABLE IF EXISTS `memp_user_relation`;
+CREATE TABLE `memp_user_relation`  (
+  `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `user_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '用户id',
+  `sub_user_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `level` int(2) NOT NULL COMMENT '下几级 1-下一级 2-下二级',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户分销关系表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for sys_area
