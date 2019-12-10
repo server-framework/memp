@@ -1,5 +1,13 @@
 package com.thinkgem.jeesite.common.web;
 
+import cn.hutool.core.util.StrUtil;
+import com.thinkgem.jeesite.common.exception.BusinessException;
+import com.thinkgem.jeesite.modules.memp.api.constans.ResultCode;
+import com.thinkgem.jeesite.modules.memp.entity.MempUser;
+import com.thinkgem.jeesite.modules.memp.service.MempUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -11,6 +19,15 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2019/12/9
  **/
 public abstract class ApiBaseController {
+
+
+    Logger log = LoggerFactory.getLogger(ApiBaseController.class);
+
+    @Value("${apiPath}")
+    protected String apiPath;
+
+    @Value("${token.expire.seconds}")
+    protected int tokenExpire;
 
     public HttpServletRequest getRequest() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -32,19 +49,19 @@ public abstract class ApiBaseController {
     }
 
     public <T> Result<T> ok() {
-        return response(HttpCode.SC_OK, BaseResultCode.SUCCESS, BaseResultCode.get(BaseResultCode.SUCCESS), null);
+        return response(HttpCode.SC_OK, ResultCode.SUCCESS, ResultCode.get(ResultCode.SUCCESS), null);
     }
 
     public <T> Result<T> ok(int retCode) {
-        return response(HttpCode.SC_OK, retCode, BaseResultCode.get(retCode), null);
+        return response(HttpCode.SC_OK, retCode, ResultCode.get(retCode), null);
     }
 
     public <T> Result<T> ok(T model) {
-        return response(HttpCode.SC_OK, BaseResultCode.SUCCESS, BaseResultCode.get(BaseResultCode.SUCCESS), model);
+        return response(HttpCode.SC_OK, ResultCode.SUCCESS, ResultCode.get(ResultCode.SUCCESS), model);
     }
 
     public <T> Result<T> failBusinessError(int retCode) {
-        return response(HttpCode.SC_INTERNAL_SERVER_ERROR, retCode, BaseResultCode.get(retCode), null);
+        return response(HttpCode.SC_INTERNAL_SERVER_ERROR, retCode, ResultCode.get(retCode), null);
     }
 
     public <T> Result<T> failServerError() {
@@ -55,7 +72,36 @@ public abstract class ApiBaseController {
         return response(HttpCode.SC_INTERNAL_SERVER_ERROR, HttpCode.SC_INTERNAL_SERVER_ERROR, message, null);
     }
 
-    public String getCurrentUserId() {
-        return JwtUtils.getCurrentUserId(getRequest());
+    public <T> Result<T> failServerError(int retCode) {
+        return response(HttpCode.SC_INTERNAL_SERVER_ERROR, retCode, ResultCode.get(retCode), null);
+    }
+
+    public <T> Result<T> failBadReq(String message) {
+        return response(HttpCode.SC_BAD_REQUEST, HttpCode.SC_BAD_REQUEST, message, null);
+    }
+
+    public MempUser getCurrentUser(MempUserService mempUserService) {
+        String userId = JwtUtils.getCurrentUserId(getRequest());
+        if (StrUtil.isBlank(userId)) {
+            log.error("request_current_user_id为空");
+            throw new BusinessException(ResultCode.USER_NOT_EXIST);
+        }
+        MempUser mempUser;
+        if (mempUserService != null) {
+            mempUser = mempUserService.get(userId);
+            if (mempUser == null) {
+                log.error("无此用户,user_id={}", userId);
+                new BusinessException(ResultCode.USER_NOT_EXIST);
+            }
+        } else {
+            mempUser = new MempUser();
+            mempUser.setId(userId);
+        }
+        return mempUser;
+    }
+
+    public String getCurrentUserId(MempUserService mempUserService) {
+        MempUser mempUser = getCurrentUser(mempUserService);
+        return mempUser.getId();
     }
 }

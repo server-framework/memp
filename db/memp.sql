@@ -11,7 +11,7 @@
  Target Server Version : 50621
  File Encoding         : 65001
 
- Date: 09/12/2019 18:36:20
+ Date: 10/12/2019 18:31:18
 */
 
 SET NAMES utf8mb4;
@@ -385,12 +385,15 @@ DROP TABLE IF EXISTS `memp_user`;
 CREATE TABLE `memp_user`  (
   `id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `openid` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'OPENID',
+  `account` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '账号',
+  `password` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '密码',
+  `salt` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '密码盐',
   `headimg` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '头像',
   `nickname` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '昵称',
   `mobile` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '手机号',
   `coin` bigint(20) NULL DEFAULT NULL COMMENT '乐币数',
+  `sex` int(2) NULL DEFAULT NULL COMMENT '性别 1-男|2-女',
   `version_no` int(10) NULL DEFAULT 1 COMMENT '乐币数乐观锁',
-  `higher_user_id` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '上级用户ID',
   `create_date` datetime(0) NOT NULL COMMENT '创建时间',
   `update_date` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
   `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '删除标记',
@@ -632,6 +635,7 @@ INSERT INTO `sys_log` VALUES ('507a30a82bed4837bd52f89347158786', '1', '后台�
 INSERT INTO `sys_log` VALUES ('51c6f7df36f243bdaffdd2fb39566557', '1', '系统设置-系统设置-菜单管理', '1', '2019-12-08 17:44:19', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/sys/menu/', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('52466fbb612b4e399f9c4a617001a6c6', '1', '我的面板-个人信息-个人信息', '1', '2019-12-08 21:17:37', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/sys/user/info', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('53f1f7c3b73d43d391f6cbd5c7134d23', '1', '系统设置-系统设置-菜单管理', '1', '2019-12-08 17:40:12', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/sys/menu/', 'GET', '', '');
+INSERT INTO `sys_log` VALUES ('542408d3d3564395aac3493a84e528ac', '1', '我的面板-个人信息-个人信息', '1', '2019-12-10 11:35:49', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/sys/user/info', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('54613db121ab400db1cc7ac870fb479f', '1', '代码生成-代码生成-业务表配置', '1', '2019-12-08 21:47:36', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/gen/genTable', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('5510f36a7289498bad8bb840311efb27', '1', '后台管理-系统设置-配置管理', '1', '2019-12-08 21:49:05', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/memp/mempSetting/form', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('56a8427f7d57432896c35a3cd668b090', '1', '代码生成-代码生成-业务表配置', '1', '2019-12-08 21:47:22', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/gen/genTable', 'GET', '', '');
@@ -668,6 +672,7 @@ INSERT INTO `sys_log` VALUES ('7d48f2c5d5fd4fb38622b291c8245d0f', '1', '后台�
 INSERT INTO `sys_log` VALUES ('7e7020459b6245a8840fef0ea0ade050', '1', '后台管理-系统设置-配置管理', '1', '2019-12-08 20:52:13', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/memp/mempSetting/form', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('820abbf93a1042c0b5ca2988231aebb4', '1', '我的面板-个人信息-个人信息', '1', '2019-12-08 20:22:51', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/sys/user/info', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('834ef58246ae465f907a50a92c4248f3', '1', '后台管理-系统设置-配置管理', '1', '2019-12-08 22:04:39', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/memp/mempSetting/form', 'GET', '', '');
+INSERT INTO `sys_log` VALUES ('838c6114bdb94b38882835acc4975bf3', '1', '系统登录', '1', '2019-12-10 11:35:48', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a', 'GET', 'login=', '');
 INSERT INTO `sys_log` VALUES ('85674ab662584dde8f69a7bdbb82236d', '1', '系统设置-系统设置-菜单管理-查看', '1', '2019-12-08 17:44:25', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/sys/menu/form', 'GET', 'id=956bd88fdd7c4c25960dc784382cf548', '');
 INSERT INTO `sys_log` VALUES ('85b767f1ba6a46aca8228c45c910109d', '1', '我的面板-个人信息-个人信息', '1', '2019-12-08 17:45:56', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/sys/user/info', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('86d294c392c24be4b68e729c7b7f1696', '1', '系统设置-系统设置-菜单管理-修改', '1', '2019-12-08 17:45:52', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/sys/menu/save', 'POST', 'id=373824f668c24c93abcb57f54500e4ee&parent.id=007570a6dc224e57b474dfb33ff337fd&parent.name=后台管理&name=系统设置&href=&target=&icon=&sort=30&isShow=1&permission=&remarks=', '');
@@ -694,6 +699,7 @@ INSERT INTO `sys_log` VALUES ('9d447b929fcb43f0b5d5eb4c80b4f535', '1', '代码�
 INSERT INTO `sys_log` VALUES ('9e7430d9645b4445a101dfc0dd6ffc07', '1', '后台管理-系统设置-配置管理', '1', '2019-12-08 21:52:38', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/memp/mempSetting/form', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('a015191e042b428da426d460b4596b42', '1', '我的面板-个人信息-个人信息', '1', '2019-12-08 20:19:54', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/sys/user/info', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('a2ef08e4ea5b47bdb07206697296c2c0', '1', '后台管理-系统设置-配置管理', '1', '2019-12-08 20:22:52', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/memp/mempSetting/form', 'GET', '', '');
+INSERT INTO `sys_log` VALUES ('a36680707ef04eab831e02be8407d815', '1', '系统设置-机构用户-用户管理-查看', '1', '2019-12-10 11:35:55', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/sys/user/list', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('a38ac29f0f7b48c4b4e27e6b8d914e73', '1', '后台管理-系统设置-配置管理', '1', '2019-12-08 21:51:06', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/memp/mempSetting/form', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('a6a8edd8576f44de9a0d1b51e6ac4b39', '1', '后台管理-系统设置-配置管理', '1', '2019-12-08 21:46:52', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/memp/mempSetting/form', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('a83018c79e8c455b94d13948f95defed', '1', '后台管理-系统设置-配置管理', '1', '2019-12-08 20:03:31', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/memp/mempSetting/form', 'GET', '', '');
@@ -711,9 +717,12 @@ INSERT INTO `sys_log` VALUES ('b3fe2d75fe1d46ccac2165de173da38f', '1', '我的�
 INSERT INTO `sys_log` VALUES ('b43d029e7f834cba906ed547c81d0e69', '1', '代码生成-代码生成-业务表配置', '1', '2019-12-08 21:50:57', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/gen/genTable', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('b6493c81c77f4e7fbdcbf26989d9467b', '1', '后台管理-系统设置-配置管理', '1', '2019-12-08 22:45:46', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/memp/mempSetting/form', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('b67cf3edaeac4ddf8bcc12bd1ebaa2a7', '1', '后台管理-系统设置-配置管理', '1', '2019-12-08 20:37:53', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/memp/mempSetting/form', 'GET', 'id=03f73ad9b79341108a86938abb4c216b', '');
+INSERT INTO `sys_log` VALUES ('b77d4c329a7d4762ac37216779acfaaf', '1', '系统设置-机构用户-机构管理-查看', '1', '2019-12-10 11:35:56', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/sys/office/list', 'GET', 'id=&parentIds=', '');
 INSERT INTO `sys_log` VALUES ('b901bef09e6e4e679eabef21c7b6dbd7', '1', '我的面板-个人信息-个人信息', '1', '2019-12-08 17:51:49', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/sys/user/info', 'GET', '', '');
+INSERT INTO `sys_log` VALUES ('b9c252670d434bbd8aff5b2772625149', '1', '系统设置-机构用户-用户管理', '1', '2019-12-10 11:35:54', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/sys/user/index', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('baa700859f474787aaa31733037c9efc', '1', '我的面板-个人信息-个人信息', '1', '2019-12-08 20:51:56', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/sys/user/info', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('bad771994e864b009bd955a0af1a68c1', '1', '代码生成-代码生成-业务表配置', '1', '2019-12-08 21:54:35', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/gen/genTable', 'GET', '', '');
+INSERT INTO `sys_log` VALUES ('bc1d2f8b63714fa198e8f2fc1c2a0251', '1', '系统设置-机构用户-机构管理', '1', '2019-12-10 11:35:55', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/sys/office/', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('bcac412d76f643b499866e23298076a6', '1', '代码生成-代码生成-业务表配置', '1', '2019-12-08 21:18:23', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/gen/genTable', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('bcf155d3bafa4eff9314c84ab8e56fb7', '1', '后台管理-系统设置-配置管理', '1', '2019-12-08 21:41:35', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/memp/mempSetting/form', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('bdb3411464ed40ebb14eff58eedfc6c5', '1', '系统设置-系统设置-菜单管理', '1', '2019-12-08 17:39:50', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/sys/menu/', 'GET', '', '');
@@ -736,6 +745,7 @@ INSERT INTO `sys_log` VALUES ('cb43e1b57422468e86bba7dc14643795', '1', '系统�
 INSERT INTO `sys_log` VALUES ('cebf61851e5f428f8519fa27af454896', '1', '系统设置-机构用户-用户管理-查看', '1', '2019-12-08 17:45:36', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/sys/user/list', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('cfd41d6be79a4b32a84e89057031e1d4', '1', '代码生成-代码生成-业务表配置', '1', '2019-12-08 21:58:15', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/gen/genTable', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('d16a38bd984b4e40a387cf04f003b122', '1', '后台管理-系统设置-配置管理', '1', '2019-12-08 20:15:42', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/memp/mempSetting/form', 'GET', '', '');
+INSERT INTO `sys_log` VALUES ('d4076eb2be674f428838a8154861f4d3', '1', '后台管理-系统设置-配置管理', '1', '2019-12-10 11:35:51', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/memp/mempSetting/form', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('d4881001ce5f4b529128cef1139a0ea1', '1', '后台管理-系统设置-配置管理', '1', '2019-12-08 20:27:27', '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/memp/mempSetting/form', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('d6151d2ed5864a25904f1da1eac7f677', '1', '后台管理-系统设置-配置管理', '1', '2019-12-08 21:53:04', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/memp/mempSetting/form', 'GET', '', '');
 INSERT INTO `sys_log` VALUES ('d7c378b312114256a27cbfc650f4fd7f', '1', '代码生成-代码生成-业务表配置', '1', '2019-12-08 21:58:01', '0:0:0:0:0:0:0:1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:71.0) Gecko/20100101 Firefox/71.0', '/memp/a/gen/genTable', 'GET', '', '');
@@ -1386,7 +1396,7 @@ CREATE TABLE `sys_user`  (
 -- ----------------------------
 -- Records of sys_user
 -- ----------------------------
-INSERT INTO `sys_user` VALUES ('1', '1', '2', 'thinkgem', '02a3f0772fcca9f415adc990734b45c6f059c7d33ee28362c4852032', '0001', '系统管理员', 'thinkgem@163.com', '8675', '8675', NULL, NULL, '0:0:0:0:0:0:0:1', '2019-12-08 22:45:45', '1', '1', '2013-05-27 08:00:00', '1', '2013-05-27 08:00:00', '最高管理员', '0');
+INSERT INTO `sys_user` VALUES ('1', '1', '2', 'thinkgem', '02a3f0772fcca9f415adc990734b45c6f059c7d33ee28362c4852032', '0001', '系统管理员', 'thinkgem@163.com', '8675', '8675', NULL, NULL, '127.0.0.1', '2019-12-10 11:35:48', '1', '1', '2013-05-27 08:00:00', '1', '2013-05-27 08:00:00', '最高管理员', '0');
 
 -- ----------------------------
 -- Table structure for sys_user_role
