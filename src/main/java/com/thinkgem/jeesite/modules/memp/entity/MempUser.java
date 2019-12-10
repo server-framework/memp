@@ -10,18 +10,19 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 用户Entity
  * @author yangqh
- * @version 2019-12-09
+ * @version 2019-12-10
  */
 public class MempUser extends DataEntity<MempUser> {
 	
 	private static final long serialVersionUID = 1L;
 	private String openid;		// OPENID
+	private String account;		// 账号
+	private String password;		// 密码
+	private String salt;		// 密码盐
 	private String headimg;		// 头像
 	private String nickname;		// 昵称
 	private String mobile;		// 手机号
-	private int coin;		// 乐币数
-	private int versionNo;		// 乐币数乐观锁
-	private int sex;
+	private int sex;		// 性别 1-男|2-女
 	
 	public MempUser() {
 		super();
@@ -38,6 +39,33 @@ public class MempUser extends DataEntity<MempUser> {
 
 	public void setOpenid(String openid) {
 		this.openid = openid;
+	}
+	
+	@Length(min=0, max=64, message="账号长度必须介于 0 和 64 之间")
+	public String getAccount() {
+		return account;
+	}
+
+	public void setAccount(String account) {
+		this.account = account;
+	}
+	
+	@Length(min=0, max=128, message="密码长度必须介于 0 和 128 之间")
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	@Length(min=0, max=64, message="密码盐长度必须介于 0 和 64 之间")
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 	
 	@Length(min=0, max=256, message="头像长度必须介于 0 和 256 之间")
@@ -67,22 +95,7 @@ public class MempUser extends DataEntity<MempUser> {
 		this.mobile = mobile;
 	}
 	
-	public int getCoin() {
-		return coin;
-	}
-
-	public void setCoin(int coin) {
-		this.coin = coin;
-	}
-	
-	public int getVersionNo() {
-		return versionNo;
-	}
-
-	public void setVersionNo(int versionNo) {
-		this.versionNo = versionNo;
-	}
-
+	@Length(min=0, max=2, message="性别 1-男|2-女长度必须介于 0 和 2 之间")
 	public int getSex() {
 		return sex;
 	}
@@ -90,4 +103,5 @@ public class MempUser extends DataEntity<MempUser> {
 	public void setSex(int sex) {
 		this.sex = sex;
 	}
+	
 }

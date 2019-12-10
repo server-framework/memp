@@ -16,7 +16,7 @@ import com.thinkgem.jeesite.modules.memp.dao.MempUserDao;
 /**
  * 用户Service
  * @author yangqh
- * @version 2019-12-09
+ * @version 2019-12-10
  */
 @Service
 @Transactional(readOnly = true)

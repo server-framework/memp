@@ -16,11 +16,15 @@ public class ResultCode {
     public static final int SUCCESS = 1000;
     public static final int NO_OPEN_ID = 1001;
     public static final int USER_NOT_EXIST = 1002;
+    public static final int USER_NOT_REGIEST = 1003;
+    public static final int USER_EXIST = 1004;
 
     static {
         messageMap.put(SUCCESS, "success");
         messageMap.put(NO_OPEN_ID, "微信未授权");
         messageMap.put(USER_NOT_EXIST, "用户不存在");
+        messageMap.put(USER_NOT_REGIEST, "用户未注册");
+        messageMap.put(USER_EXIST, "账号已存在");
     }
 
     public static String get(int code) {

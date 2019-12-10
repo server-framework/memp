@@ -3,8 +3,6 @@ package com.thinkgem.jeesite.common.web;
 import cn.hutool.core.util.StrUtil;
 import com.thinkgem.jeesite.common.utils.JedisUtils;
 import com.thinkgem.jeesite.modules.memp.api.constans.TokenClearType;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
@@ -39,22 +37,6 @@ public class JwtUtils {
             JedisUtils.set(cacheToken, TokenClearType.LOGOUT_PASSIVE.getVal(), 0);
         }
         JedisUtils.set(userId, token, tokenExpire);
-    }
-
-    public static String parserToken(String token) {
-        Jws<Claims> claimsJws = null;
-        try {
-            claimsJws = Jwts.parser().setSigningKey(TOKEN_KEY).parseClaimsJws(token);
-        } catch (Exception e) {
-            // don't trust the JWT!
-            log.warn("Wrong token: {}", token);
-        }
-        if (claimsJws != null) {
-            String userId = claimsJws.getBody().getAudience();
-            return userId;
-        }
-        log.warn("claimsJws is null");
-        return null;
     }
 
     public static String getCurrentUserId(HttpServletRequest request) {

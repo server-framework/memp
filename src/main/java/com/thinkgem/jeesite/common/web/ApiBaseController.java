@@ -26,8 +26,9 @@ public abstract class ApiBaseController {
     @Value("${apiPath}")
     protected String apiPath;
 
-    @Value("${token.expire.seconds}")
-    protected int tokenExpire;
+//    @Value("${token.expire.seconds}")
+    // token缓存30天
+    protected int tokenExpire = 2592000;
 
     public HttpServletRequest getRequest() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -48,15 +49,15 @@ public abstract class ApiBaseController {
         return result;
     }
 
-    public <T> Result<T> ok() {
+    public <T> Result<T> success() {
         return response(HttpCode.SC_OK, ResultCode.SUCCESS, ResultCode.get(ResultCode.SUCCESS), null);
     }
 
-    public <T> Result<T> ok(int retCode) {
+    public <T> Result<T> success(int retCode) {
         return response(HttpCode.SC_OK, retCode, ResultCode.get(retCode), null);
     }
 
-    public <T> Result<T> ok(T model) {
+    public <T> Result<T> success(T model) {
         return response(HttpCode.SC_OK, ResultCode.SUCCESS, ResultCode.get(ResultCode.SUCCESS), model);
     }
 

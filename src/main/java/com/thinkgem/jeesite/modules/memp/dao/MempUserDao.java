@@ -10,7 +10,7 @@ import com.thinkgem.jeesite.modules.memp.entity.MempUser;
 /**
  * 用户DAO接口
  * @author yangqh
- * @version 2019-12-09
+ * @version 2019-12-10
  */
 @MyBatisDao
 public interface MempUserDao extends CrudDao<MempUser> {

@@ -40,6 +40,24 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">账号：</label>
+			<div class="controls">
+				<form:input path="account" htmlEscape="false" maxlength="64" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">密码：</label>
+			<div class="controls">
+				<form:input path="password" htmlEscape="false" maxlength="128" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">密码盐：</label>
+			<div class="controls">
+				<form:input path="salt" htmlEscape="false" maxlength="64" class="input-xlarge "/>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">头像：</label>
 			<div class="controls">
 				<form:input path="headimg" htmlEscape="false" maxlength="256" class="input-xlarge "/>
@@ -58,15 +76,9 @@
 			</div>
 		</div>
 		<div class="control-group">
-			<label class="control-label">乐币数：</label>
+			<label class="control-label">性别 1-男|2-女：</label>
 			<div class="controls">
-				<form:input path="coin" htmlEscape="false" maxlength="20" class="input-xlarge  digits"/>
-			</div>
-		</div>
-		<div class="control-group">
-			<label class="control-label">乐币数乐观锁：</label>
-			<div class="controls">
-				<form:input path="versionNo" htmlEscape="false" maxlength="10" class="input-xlarge "/>
+				<form:input path="sex" htmlEscape="false" maxlength="2" class="input-xlarge "/>
 			</div>
 		</div>
 		<div class="form-actions">

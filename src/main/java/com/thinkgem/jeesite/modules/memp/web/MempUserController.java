@@ -25,7 +25,7 @@ import com.thinkgem.jeesite.modules.memp.service.MempUserService;
 /**
  * 用户Controller
  * @author yangqh
- * @version 2019-12-09
+ * @version 2019-12-10
  */
 @Controller
 @RequestMapping(value = "${adminPath}/memp/mempUser")

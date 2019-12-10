@@ -70,10 +70,8 @@ public class WxMpController extends ApiBaseController {
         if (mempUserList == null || mempUserList.isEmpty()) {
             MempUser mempUser = new MempUser();
             mempUser.setOpenid(wxMpOAuth2AccessToken.getOpenId());
-            mempUser.setCoin(1);
-            mempUser.setVersionNo(1);
             mempUserService.save(mempUser);
-            return ok(ResultCode.NO_OPEN_ID);
+            return success(ResultCode.NO_OPEN_ID);
         }
         if (StrUtil.isBlank(mempUserList.get(0).getNickname())) {
             //获取微信用户信息
@@ -94,7 +92,7 @@ public class WxMpController extends ApiBaseController {
         String token = JwtUtils.createToken(mempUserList.get(0).getId(), tokenExpire);
         TokenDTO tokenDTO = new TokenDTO();
         tokenDTO.setToken(token);
-        return ok(tokenDTO);
+        return success(tokenDTO);
     }
 
     @ApiOperation(value = "测试获取token")
@@ -103,6 +101,6 @@ public class WxMpController extends ApiBaseController {
         String token = JwtUtils.createToken(userId, tokenExpire);
         TokenDTO tokenDTO = new TokenDTO();
         tokenDTO.setToken(token);
-        return ok(tokenDTO);
+        return success(tokenDTO);
     }
 }

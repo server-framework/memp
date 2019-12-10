@@ -75,6 +75,7 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         // 如果验证token失败，并且方法注明了Authorization，返回401错误
         if (handlerMethod.getBeanType().getAnnotation(Authorization.class) != null   // 查看方法所在的Controller是否有注解
                 || method.getAnnotation(Authorization.class) != null) { // 查看方法上是否有注解
+            response.setHeader("content-type", "text/html;charset=UTF-8");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(response.getOutputStream()));
