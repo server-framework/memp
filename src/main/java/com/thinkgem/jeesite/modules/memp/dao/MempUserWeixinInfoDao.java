@@ -5,14 +5,14 @@ package com.thinkgem.jeesite.modules.memp.dao;
 
 import com.thinkgem.jeesite.common.persistence.CrudDao;
 import com.thinkgem.jeesite.common.persistence.annotation.MyBatisDao;
-import com.thinkgem.jeesite.modules.memp.entity.MempUser;
+import com.thinkgem.jeesite.modules.memp.entity.MempUserWeixinInfo;
 
 /**
- * 用户DAO接口
+ * 微信用户DAO接口
  * @author yangqh
  * @version 2019-12-12
  */
 @MyBatisDao
-public interface MempUserDao extends CrudDao<MempUser> {
+public interface MempUserWeixinInfoDao extends CrudDao<MempUserWeixinInfo> {
 	
 }

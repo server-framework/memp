@@ -1,37 +1,32 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.thinkgem.jeesite.modules.memp.dao.MempUserDao">
+<mapper namespace="com.thinkgem.jeesite.modules.memp.dao.MempUserWeixinInfoDao">
     
-	<sql id="mempUserColumns">
+	<sql id="mempUserWeixinInfoColumns">
 		a.id AS "id",
-		a.account AS "account",
-		a.password AS "password",
-		a.salt AS "salt",
-		a.headimg AS "headimg",
-		a.nickname AS "nickname",
-		a.mobile AS "mobile",
-		a.sex AS "sex",
+		a.user_id AS "userId",
+		a.app_id AS "appId",
+		a.open_id AS "openId",
+		a.union_id AS "unionId",
+		a.device_id AS "deviceId",
+		a.user_info AS "userInfo",
 		a.create_date AS "createDate",
 		a.update_date AS "updateDate",
-		a.del_flag AS "delFlag"
-	</sql>
-	
-	<sql id="mempUserJoins">
+		a.del_flag AS "delFlag",
+		u2.name AS "user.name"
 	</sql>
     
-	<select id="get" resultType="MempUser">
+	<select id="get" resultType="MempUserWeixinInfo">
 		SELECT 
-			<include refid="mempUserColumns"/>
-		FROM memp_user a
-		<include refid="mempUserJoins"/>
+			<include refid="mempUserWeixinInfoColumns"/>
+		FROM memp_user_weixin_info a
 		WHERE a.id = #{id}
 	</select>
 	
-	<select id="findList" resultType="MempUser">
+	<select id="findList" resultType="MempUserWeixinInfo">
 		SELECT 
-			<include refid="mempUserColumns"/>
-		FROM memp_user a
-		<include refid="mempUserJoins"/>
+			<include refid="mempUserWeixinInfoColumns"/>
+		FROM memp_user_weixin_info a
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 		</where>
@@ -45,11 +40,10 @@
 		</choose>
 	</select>
 	
-	<select id="findAllList" resultType="MempUser">
+	<select id="findAllList" resultType="MempUserWeixinInfo">
 		SELECT 
-			<include refid="mempUserColumns"/>
-		FROM memp_user a
-		<include refid="mempUserJoins"/>
+			<include refid="mempUserWeixinInfoColumns"/>
+		FROM memp_user_weixin_info a
 		<where>
 			a.del_flag = #{DEL_FLAG_NORMAL}
 		</where>		
@@ -64,27 +58,25 @@
 	</select>
 	
 	<insert id="insert">
-		INSERT INTO memp_user(
+		INSERT INTO memp_user_weixin_info(
 			id,
-			account,
-			password,
-			salt,
-			headimg,
-			nickname,
-			mobile,
-			sex,
+			user_id,
+			app_id,
+			open_id,
+			union_id,
+			device_id,
+			user_info,
 			create_date,
 			update_date,
 			del_flag
 		) VALUES (
 			#{id},
-			#{account},
-			#{password},
-			#{salt},
-			#{headimg},
-			#{nickname},
-			#{mobile},
-			#{sex},
+			#{userId},
+			#{appId},
+			#{openId},
+			#{unionId},
+			#{deviceId},
+			#{userInfo},
 			#{createDate},
 			#{updateDate},
 			#{delFlag}
@@ -92,20 +84,19 @@
 	</insert>
 	
 	<update id="update">
-		UPDATE memp_user SET 	
-			account = #{account},
-			password = #{password},
-			salt = #{salt},
-			headimg = #{headimg},
-			nickname = #{nickname},
-			mobile = #{mobile},
-			sex = #{sex},
+		UPDATE memp_user_weixin_info SET 	
+			user_id = #{userId},
+			app_id = #{appId},
+			open_id = #{openId},
+			union_id = #{unionId},
+			device_id = #{deviceId},
+			user_info = #{userInfo},
 			update_date = #{updateDate}
 		WHERE id = #{id}
 	</update>
 	
 	<update id="delete">
-		UPDATE memp_user SET 
+		UPDATE memp_user_weixin_info SET 
 			del_flag = #{DEL_FLAG_DELETE}
 		WHERE id = #{id}
 	</update>

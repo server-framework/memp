@@ -34,12 +34,6 @@
 		<form:hidden path="id"/>
 		<sys:message content="${message}"/>		
 		<div class="control-group">
-			<label class="control-label">OPENID：</label>
-			<div class="controls">
-				<form:input path="openid" htmlEscape="false" maxlength="64" class="input-xlarge "/>
-			</div>
-		</div>
-		<div class="control-group">
 			<label class="control-label">账号：</label>
 			<div class="controls">
 				<form:input path="account" htmlEscape="false" maxlength="64" class="input-xlarge "/>
@@ -78,7 +72,7 @@
 		<div class="control-group">
 			<label class="control-label">性别 1-男|2-女：</label>
 			<div class="controls">
-				<form:input path="sex" htmlEscape="false" maxlength="2" class="input-xlarge "/>
+				<form:input path="sex" htmlEscape="false" maxlength="2" class="input-xlarge  digits"/>
 			</div>
 		</div>
 		<div class="form-actions">

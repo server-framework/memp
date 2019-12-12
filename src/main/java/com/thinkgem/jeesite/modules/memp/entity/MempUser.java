@@ -10,19 +10,18 @@ import com.thinkgem.jeesite.common.persistence.DataEntity;
 /**
  * 用户Entity
  * @author yangqh
- * @version 2019-12-10
+ * @version 2019-12-12
  */
 public class MempUser extends DataEntity<MempUser> {
 	
 	private static final long serialVersionUID = 1L;
-	private String openid;		// OPENID
 	private String account;		// 账号
 	private String password;		// 密码
 	private String salt;		// 密码盐
 	private String headimg;		// 头像
 	private String nickname;		// 昵称
 	private String mobile;		// 手机号
-	private int sex;		// 性别 1-男|2-女
+	private Integer sex;		// 性别 1-男|2-女
 	
 	public MempUser() {
 		super();
@@ -32,15 +31,6 @@ public class MempUser extends DataEntity<MempUser> {
 		super(id);
 	}
 
-	@Length(min=0, max=64, message="OPENID长度必须介于 0 和 64 之间")
-	public String getOpenid() {
-		return openid;
-	}
-
-	public void setOpenid(String openid) {
-		this.openid = openid;
-	}
-	
 	@Length(min=0, max=64, message="账号长度必须介于 0 和 64 之间")
 	public String getAccount() {
 		return account;
@@ -95,12 +85,11 @@ public class MempUser extends DataEntity<MempUser> {
 		this.mobile = mobile;
 	}
 	
-	@Length(min=0, max=2, message="性别 1-男|2-女长度必须介于 0 和 2 之间")
-	public int getSex() {
+	public Integer getSex() {
 		return sex;
 	}
 
-	public void setSex(int sex) {
+	public void setSex(Integer sex) {
 		this.sex = sex;
 	}
 	

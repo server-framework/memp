@@ -7,6 +7,7 @@ import com.thinkgem.jeesite.common.web.Result;
 import com.thinkgem.jeesite.common.web.TokenDTO;
 import com.thinkgem.jeesite.modules.memp.api.constans.ResultCode;
 import com.thinkgem.jeesite.modules.memp.api.dto.LoginDTO;
+import com.thinkgem.jeesite.modules.memp.api.dto.ModifyPwdDTO;
 import com.thinkgem.jeesite.modules.memp.api.dto.RegisterDTO;
 import com.thinkgem.jeesite.modules.memp.api.interceptor.Authorization;
 import com.thinkgem.jeesite.modules.memp.entity.MempUser;
@@ -72,7 +73,7 @@ public class ApiUserController extends ApiBaseController {
      * @author yangqh
      * @date 2019/12/10
      **/
-    @ApiOperation(value = "注册", notes = "返回码：1000成功|1004|500")
+    @ApiOperation(value = "账号注册", notes = "返回码：1000成功|1004|500")
     @RequestMapping(value = "register", method = RequestMethod.POST)
     public Result register(@RequestBody @Validated RegisterDTO registerDTO) {
         MempUser mempUser = new MempUser();
@@ -86,6 +87,24 @@ public class ApiUserController extends ApiBaseController {
         mempUser.setSalt(salt);
         mempUser.setPassword(BCrypt.hashpw(registerDTO.getPassword(), salt));
         mempUser.setMobile(registerDTO.getAccount());
+        mempUserService.save(mempUser);
+        return success();
+    }
+
+    /**
+     * @author yangqh
+     * @date 2019/12/12
+     **/
+    @ApiOperation(value = "修改密码", notes = "1000成功|500")
+    @Authorization
+    @RequestMapping(value = "modifyPwd", method = RequestMethod.POST)
+    public Result modifyPwd(@RequestBody ModifyPwdDTO modifyPwdDTO) {
+        //todo 校验短信验证码
+
+        MempUser mempUser = getCurrentUser(mempUserService);
+        String salt = BCrypt.gensalt();//盐
+        mempUser.setSalt(salt);
+        mempUser.setPassword(BCrypt.hashpw(modifyPwdDTO.getPassword(), salt));
         mempUserService.save(mempUser);
         return success();
     }

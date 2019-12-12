@@ -26,7 +26,7 @@ public abstract class ApiBaseController {
     @Value("${apiPath}")
     protected String apiPath;
 
-//    @Value("${token.expire.seconds}")
+    //    @Value("${token.expire.seconds}")
     // token缓存30天
     protected int tokenExpire = 2592000;
 
@@ -59,6 +59,10 @@ public abstract class ApiBaseController {
 
     public <T> Result<T> success(T model) {
         return response(HttpCode.SC_OK, ResultCode.SUCCESS, ResultCode.get(ResultCode.SUCCESS), model);
+    }
+
+    public <T> Result<T> success(int retCode, T model) {
+        return response(HttpCode.SC_OK, retCode, ResultCode.get(retCode), model);
     }
 
     public <T> Result<T> failBusinessError(int retCode) {

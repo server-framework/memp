@@ -18,6 +18,7 @@ public class ResultCode {
     public static final int USER_NOT_EXIST = 1002;
     public static final int USER_NOT_REGIEST = 1003;
     public static final int USER_EXIST = 1004;
+    public static final int OPENID_NOT_JOIN_USER = 1005;
 
     static {
         messageMap.put(SUCCESS, "success");
@@ -25,6 +26,7 @@ public class ResultCode {
         messageMap.put(USER_NOT_EXIST, "用户不存在");
         messageMap.put(USER_NOT_REGIEST, "用户未注册");
         messageMap.put(USER_EXIST, "账号已存在");
+        messageMap.put(OPENID_NOT_JOIN_USER, "微信账号未关联账号");
     }
 
     public static String get(int code) {

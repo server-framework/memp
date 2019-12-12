@@ -6,8 +6,8 @@ import com.thinkgem.jeesite.common.web.JwtUtils;
 import com.thinkgem.jeesite.common.web.Result;
 import com.thinkgem.jeesite.common.web.TokenDTO;
 import com.thinkgem.jeesite.modules.memp.api.constans.ResultCode;
-import com.thinkgem.jeesite.modules.memp.entity.MempUser;
-import com.thinkgem.jeesite.modules.memp.service.MempUserService;
+import com.thinkgem.jeesite.modules.memp.entity.MempUserWeixinInfo;
+import com.thinkgem.jeesite.modules.memp.service.MempUserWeixinInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -30,7 +30,7 @@ import java.util.List;
 
 @Api(value = "WxMpController", tags = "微信公众号")
 @RestController
-@RequestMapping(value = "${apiPath}/wx/")
+@RequestMapping(value = "${apiPath}/wxmp/")
 public class WxMpController extends ApiBaseController {
 
     Logger log = LoggerFactory.getLogger(WxMpController.class);
@@ -41,14 +41,14 @@ public class WxMpController extends ApiBaseController {
     private String appsecret;
 
     @Resource
-    private MempUserService mempUserService;
+    private MempUserWeixinInfoService weixinInfoService;
 
     /**
      * @author yangqh
      * @date 2019/12/9
      * @since {https://developers.weixin.qq.com/doc/offiaccount/OA_Web_Apps/Wechat_webpage_authorization.html#1}
      **/
-    @ApiOperation(value = "微信授权登录", notes = "1000成功|500服务器错误|1001微信未授权")
+    @ApiOperation(value = "微信授权登录", notes = "第一次调用微信静默授权换取code进行登录，成功直接返回token，未授权提示1001并引导用户进行微信授权操作再次换取code，进行登录。（1000成功|500服务器错误|1001微信未授权）")
     @RequestMapping(value = "login", method = RequestMethod.GET)
     public Result<TokenDTO> login(@RequestParam String code) {
         WxMpDefaultConfigImpl config = new WxMpDefaultConfigImpl();
@@ -61,19 +61,18 @@ public class WxMpController extends ApiBaseController {
             wxMpOAuth2AccessToken = wxMpService.oauth2getAccessToken(code);
         } catch (Exception e) {
             log.error("通过code换取网页授权access_token和openid异常", e);
-            return failServerError("授权失败");
+            return failServerError("授权失败，请重新尝试！");
         }
-        MempUser user = new MempUser();
-        user.setOpenid(wxMpOAuth2AccessToken.getOpenId());
-        user.setDelFlag("0");
-        List<MempUser> mempUserList = mempUserService.findList(user);
-        if (mempUserList == null || mempUserList.isEmpty()) {
-            MempUser mempUser = new MempUser();
-            mempUser.setOpenid(wxMpOAuth2AccessToken.getOpenId());
-            mempUserService.save(mempUser);
+        MempUserWeixinInfo weixinInfo = new MempUserWeixinInfo();
+        weixinInfo.setDelFlag("0");
+        weixinInfo.setOpenId(wxMpOAuth2AccessToken.getOpenId());
+        List<MempUserWeixinInfo> weixinInfoList = weixinInfoService.findList(weixinInfo);
+        if (weixinInfoList == null || weixinInfoList.isEmpty()) {
+            weixinInfo.setAppId(appid);
+            weixinInfoService.initWeixinInfo(weixinInfo, true);
             return success(ResultCode.NO_OPEN_ID);
         }
-        if (StrUtil.isBlank(mempUserList.get(0).getNickname())) {
+        if (StrUtil.isBlank(weixinInfoList.get(0).getUserInfo())) {
             //获取微信用户信息
             WxMpUserService wxMpUserService = new WxMpUserServiceImpl(wxMpService);
             WxMpUser wxMpUser;
@@ -83,13 +82,10 @@ public class WxMpController extends ApiBaseController {
                 log.error("获取微信用户信息异常", e);
                 return failServerError("获取微信用户信息失败");
             }
-            MempUser mempUser = mempUserList.get(0);
-            mempUser.setNickname(wxMpUser.getNickname());
-            mempUser.setHeadimg(wxMpUser.getHeadImgUrl());
-            mempUser.setSex(wxMpUser.getSex());
-            mempUserService.save(mempUser);
+            weixinInfoService.updateWeixinInfo(wxMpUser, weixinInfoList.get(0));
         }
-        String token = JwtUtils.createToken(mempUserList.get(0).getId(), tokenExpire);
+
+        String token = JwtUtils.createToken(weixinInfoList.get(0).getUserId(), tokenExpire);
         TokenDTO tokenDTO = new TokenDTO();
         tokenDTO.setToken(token);
         return success(tokenDTO);
