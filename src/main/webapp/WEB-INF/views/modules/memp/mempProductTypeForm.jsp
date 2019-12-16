@@ -5,6 +5,9 @@
 	<title>商品类型管理</title>
 	<meta name="decorator" content="default"/>
 	<script type="text/javascript">
+
+		var specInfoList;
+		var i;
 		$(document).ready(function() {
 			//$("#name").focus();
 			$("#inputForm").validate({
@@ -22,8 +25,23 @@
 					}
 				}
 			});
+
+			specInfoList = eval(${specInfoList});
+			i = ${specsSize};
+			if (i != 0) {
+				var htmlTr = "";
+				$.each(specInfoList, function (index, item) {
+					htmlTr = htmlTr + "<tr>" +
+							"<td><input name='spec' value='"+item.spec+"' style='border: 1px solid lightgrey;height: 28px;border-radius:5px;' class='input-mini'/></td>'" +
+							"<td><input name='item' value='"+item.item+"' style='border: 1px solid lightgrey;height: 28px;border-radius:5px;' class='input-xxlarge'/></td>" +
+							"<td><a onclick='delRow(this)' style='cursor: pointer;'>删除</a></td>" +
+							"</tr>";
+				});
+				console.log(htmlTr);
+				$("#specinfo").append(htmlTr);
+			}
 		});
-		var i = 1;
+
 		$("#addRow").live("click", function() {
 			if (i == 3) {
 				$.jBox.tip("最多只能添加3个规格", '提示');
@@ -69,11 +87,12 @@
 					<tr>
 						<td style="width: 20%;">规格</td>
 						<td style="width: 65%;">规格项（<font color="red">多项已“|”分割</font>）</td>
-						<td style="width: 15%;"><input id="addRow" class="btn" type="button" value="添加"></td></tr>
-					<tr>
-						<td><form:input path="spec" htmlEscape="false" maxlength="1024" class="input-mini"/></td>
-						<td><form:input path="item" htmlEscape="false" maxlength="1024" class="input-xxlarge"/></td>
+						<td style="width: 15%;"><input id="addRow" class="btn" type="button" value="添加"></td>
 					</tr>
+<%--					<tr>--%>
+<%--						<td><form:input path="spec" htmlEscape="false" maxlength="1024" class="input-mini"/></td>--%>
+<%--						<td><form:input path="item" htmlEscape="false" maxlength="1024" class="input-xxlarge"/></td>--%>
+<%--					</tr>--%>
 				</table>
 				<br>
 			</div>

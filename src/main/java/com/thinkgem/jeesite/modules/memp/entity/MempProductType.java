@@ -7,6 +7,8 @@ import org.hibernate.validator.constraints.Length;
 
 import com.thinkgem.jeesite.common.persistence.DataEntity;
 
+import java.util.List;
+
 /**
  * 商品类型Entity
  * @author yangqh
@@ -20,6 +22,8 @@ public class MempProductType extends DataEntity<MempProductType> {
 
 	private String spec;
 	private String item;
+
+	private List<SpecInfo> specInfoList;
 	
 	public MempProductType() {
 		super();
@@ -61,5 +65,13 @@ public class MempProductType extends DataEntity<MempProductType> {
 
 	public void setItem(String item) {
 		this.item = item;
+	}
+
+	public List<SpecInfo> getSpecInfoList() {
+		return specInfoList;
+	}
+
+	public void setSpecInfoList(List<SpecInfo> specInfoList) {
+		this.specInfoList = specInfoList;
 	}
 }

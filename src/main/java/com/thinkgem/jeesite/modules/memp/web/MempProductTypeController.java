@@ -6,6 +6,12 @@ package com.thinkgem.jeesite.modules.memp.web;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.thinkgem.jeesite.common.exception.BusinessException;
+import com.thinkgem.jeesite.modules.memp.entity.SpecInfo;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +27,9 @@ import com.thinkgem.jeesite.common.web.BaseController;
 import com.thinkgem.jeesite.common.utils.StringUtils;
 import com.thinkgem.jeesite.modules.memp.entity.MempProductType;
 import com.thinkgem.jeesite.modules.memp.service.MempProductTypeService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 商品类型Controller
@@ -58,6 +67,12 @@ public class MempProductTypeController extends BaseController {
 	@RequestMapping(value = "form")
 	public String form(MempProductType mempProductType, Model model) {
 		model.addAttribute("mempProductType", mempProductType);
+		model.addAttribute("specsSize",0);
+		if (mempProductType != null && StrUtil.isNotBlank(mempProductType.getSpecInfo())) {
+			List<SpecInfo> specInfoList = JSON.parseObject(mempProductType.getSpecInfo(),new TypeReference<List<SpecInfo>>(){});
+			model.addAttribute("specInfoList", JSON.toJSONString(specInfoList));
+			model.addAttribute("specsSize",specInfoList.size());
+		}
 		return "modules/memp/mempProductTypeForm";
 	}
 
@@ -67,7 +82,15 @@ public class MempProductTypeController extends BaseController {
 		if (!beanValidator(model, mempProductType)){
 			return form(mempProductType, model);
 		}
-		mempProductTypeService.save(mempProductType);
+		try {
+			mempProductTypeService.save(mempProductType);
+		} catch (BusinessException e) {
+			List<String> list = new ArrayList<String>();
+			list.add(0, "数据验证失败：");
+			list.add(1,e.getMessage());
+			addMessage(model, list.toArray(new String[]{}));
+			return form(mempProductType, model);
+		}
 		addMessage(redirectAttributes, "保存商品类型成功");
 		return "redirect:"+Global.getAdminPath()+"/memp/mempProductType/?repage";
 	}
