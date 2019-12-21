@@ -30,7 +30,7 @@ public class Area extends TreeEntity<Area> {
 	public Area(String id){
 		super(id);
 	}
-	
+
 //	@JsonBackReference
 //	@NotNull
 	public Area getParent() {
@@ -49,7 +49,7 @@ public class Area extends TreeEntity<Area> {
 //	public void setParentIds(String parentIds) {
 //		this.parentIds = parentIds;
 //	}
-//	
+//
 //	@Length(min=1, max=100)
 //	public String getName() {
 //		return name;

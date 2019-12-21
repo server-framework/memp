@@ -13,6 +13,8 @@ import com.thinkgem.jeesite.modules.sys.dao.AreaDao;
 import com.thinkgem.jeesite.modules.sys.entity.Area;
 import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 
+import javax.annotation.Resource;
+
 /**
  * 区域Service
  * @author ThinkGem
@@ -22,9 +24,18 @@ import com.thinkgem.jeesite.modules.sys.utils.UserUtils;
 @Transactional(readOnly = true)
 public class AreaService extends TreeService<AreaDao, Area> {
 
+	@Resource
+	private AreaDao dao;
+
 	public List<Area> findAll(){
 		return UserUtils.getAreaList();
 	}
+
+    public List<Area> findAllFromDb(){
+        Area area = new Area();
+        area.setDelFlag("0");
+        return super.findList(area);
+    }
 
 	@Transactional(readOnly = false)
 	public void save(Area area) {
@@ -37,5 +48,12 @@ public class AreaService extends TreeService<AreaDao, Area> {
 		super.delete(area);
 		UserUtils.removeCache(UserUtils.CACHE_AREA_LIST);
 	}
-	
+
+	@Transactional(readOnly = false)
+    public void saveBatch(List<Area> areaList) {
+//		for (Area area : areaList) {
+//			dao.saveCust(area);
+//		}
+		dao.saveBatch(areaList);
+    }
 }
